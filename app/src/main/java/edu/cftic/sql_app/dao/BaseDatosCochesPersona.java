@@ -1,4 +1,4 @@
-package edu.cftic.sql_app.dao;
+package edu.cftic.sql_app.dao; // DAO (Data Access Objetc)
 
 import android.content.Context;
 import android.database.Cursor;
@@ -79,7 +79,7 @@ public class BaseDatosCochesPersona extends SQLiteOpenHelper {
 
 
         SQLiteDatabase basedatos = this.getReadableDatabase();
-        Cursor cursor = basedatos.rawQuery(consulta, null);
+        Cursor cursor = basedatos.rawQuery(consulta, null); // Cursor es un objeto que va al primer objeto de la lista
 
 
         if( cursor != null && cursor.getCount() >0)
@@ -124,6 +124,42 @@ public class BaseDatosCochesPersona extends SQLiteOpenHelper {
 
                 modelo = cursor.getString(0); //la posicion primera, el id
                 coche = new Coche(modelo);
+                lista_coches.add(coche);
+
+            }while (cursor.moveToNext());
+
+            cursor.close();
+        }
+
+        this.cerrarBaseDatos(basedatos);
+        return lista_coches;
+    }
+
+    public List<Coche> buscarCoches ()
+    {
+        List<Coche> lista_coches = null;
+        Coche coche = null;
+        int aux_id = -1;
+        String modelo = null;
+        int id = -1;
+
+
+        String consulta = "SELECT id, modelo FROM COCHE";
+
+        SQLiteDatabase basedatos = this.getReadableDatabase();
+        Cursor cursor = basedatos.rawQuery(consulta, null);
+
+
+        if( cursor != null && cursor.getCount() >0)
+        {
+            cursor.moveToFirst();
+            lista_coches = new ArrayList<Coche>(cursor.getCount());
+
+            do
+            {
+                id = cursor.getInt(0);
+                modelo = cursor.getString(1); //la posicion primera, el id
+                coche = new Coche(id, modelo);
                 lista_coches.add(coche);
 
             }while (cursor.moveToNext());

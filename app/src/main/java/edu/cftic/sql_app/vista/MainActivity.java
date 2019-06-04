@@ -1,10 +1,12 @@
 package edu.cftic.sql_app.vista;
 
+import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-
-
+import android.view.View;
+import android.widget.Button;
 
 
 import java.util.List;
@@ -16,13 +18,29 @@ import edu.cftic.sql_app.dto.Persona;
 
 public class MainActivity extends AppCompatActivity {
 
+
+    private BaseDatosCochesPersona baseDatosCochesPersona;
+
+    Button btnMostrar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        btnMostrar = findViewById(R.id.btnMostrarId);
+        btnMostrar.setEnabled(false);
+
+
+    }
+
+    public void cargarDatos(View view) {
+
+        //Button btnMostrar = findViewById(R.id.btnMostrarId);
+
+
         //creo el objeto de la base de datos
-        BaseDatosCochesPersona baseDatosCochesPersona = new BaseDatosCochesPersona(this, "MiDB", null, 1);
+        baseDatosCochesPersona = new BaseDatosCochesPersona(this, "MiDB", null, 1);
 
         Persona persona1 = new Persona(1, "Juan");
         Persona persona2 = new Persona(2, "Conchi");
@@ -42,13 +60,37 @@ public class MainActivity extends AppCompatActivity {
         baseDatosCochesPersona.insertarCoche(coche2);
         baseDatosCochesPersona.insertarCoche(coche3);
 
-        //consulto los coches de la persona
-        List<Coche> listacoches = baseDatosCochesPersona.buscarCochesPersona(persona2);
 
-        Log.d(getClass().getCanonicalName(), "Los coches de " + persona2.getNombre() + " son :");
-        for (Coche coche: listacoches)
-        {
-            Log.d(getClass().getCanonicalName(), coche.getModelo());
-        }
+        btnMostrar.setEnabled(true);
+
+
     }
+
+    public void mostrarDatos(View view) {
+
+
+
+        Intent intent = new Intent(this, MostrarListaCoches.class);
+        startActivity(intent);
+
+        //Log.d(getClass().getCanonicalName(), "Los coches de " + persona2.getNombre() + " son :");
+
+
+
+        /*for (int contador=0;contador<listacoches.size();contador++){
+
+            Coche coche = listacoches.get(contador);
+
+        }*/
+
+        // ********** Haciendolo con for each *********
+        /*for (Coche coche: listacoches)
+        {
+
+            Log.d(getClass().getCanonicalName(), coche.getModelo());
+        }*/
+    }
+
+
+
 }

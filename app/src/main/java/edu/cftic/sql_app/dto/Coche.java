@@ -1,4 +1,4 @@
-package edu.cftic.sql_app.dto;
+package edu.cftic.sql_app.dto; //DTO (Data Transfer Object)
 
 /**
  * Created by vale on 1/06/16.
